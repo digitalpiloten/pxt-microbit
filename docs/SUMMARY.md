@@ -189,7 +189,6 @@
         * [forever](/reference/basic/forever)
         * [pause](/reference/basic/pause)
         * [show arrow](/reference/basic/show-arrow)
-        * [show animation](/reference/basic/show-animation)
     * [Input](/reference/input)
         * [on button pressed](/reference/input/on-button-pressed)
         * [on gesture](/reference/input/on-gesture)
@@ -326,14 +325,6 @@
         * [stop advertising](/reference/bluetooth/stop-advertising)
         * [advertise uid](/reference/bluetooth/advertise-uid)
         * [advertise-uid-buffer](/reference/bluetooth/advertise-uid-buffer)
-    * [Devices](/reference/devices)
-        * [tell camera to](/reference/devices/tell-camera-to)
-        * [tell remote control to](/reference/devices/tell-remote-control-to)
-        * [raise alert to](/reference/devices/raise-alert-to)
-        * [on notified](/reference/devices/on-notified)
-        * [on gamepad button](/reference/devices/on-gamepad-button)
-        * [signal strength](/reference/devices/signal-strength)
-        * [on signal strength changed](/reference/devices/on-signal-strength-changed)
 
 ## #packages
 
@@ -363,6 +354,7 @@
         * [Remote Data](/device/data-analysis/remote)
     * [Error codes](/device/error-codes)
     * [Foil circuits](/device/foil-circuits)
+    * [Incompatible Hardware](/device/incompatible)
     * [MES events](/device/mes-events)
     * [Pins](/device/pins)
     * [Reactive](/device/reactive)

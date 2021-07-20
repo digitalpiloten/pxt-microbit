@@ -1,0 +1,18 @@
+{
+  "datalogger": "Log data to flash storage",
+  "datalogger.createCV": "A column and value to log to flash storage\n\n\n@returns A new value that can be stored in flash storage using log data",
+  "datalogger.createCV|param|column": "the column to set",
+  "datalogger.createCV|param|value": "the value to set.",
+  "datalogger.deleteLog": "Delete all existing logs, including column headers. By default this only marks the log as\noverwriteable / deletable in the future.",
+  "datalogger.deleteLog|param|deleteType": "optional set whether a deletion will be fast or full",
+  "datalogger.includeTimestamp": "Set the format for timestamps",
+  "datalogger.includeTimestamp|param|format": "Format in which to show the timestamp. Setting FlashLogTimeStampFormat.None will disable the timestamp.",
+  "datalogger.logData": "Log data to flash storage",
+  "datalogger.logData|param|data": "Array of data to be logged to flash storage",
+  "datalogger.mirrorToSerial": "Set whether data is mirrored to serial or not.",
+  "datalogger.mirrorToSerial|param|on": "if true, data that is logged will be mirrored to serial",
+  "datalogger.onLogFull": "Register an event to run when no more data can be logged.",
+  "datalogger.onLogFull|param|handler": "code to run when the log is full and no more data can be stored.",
+  "datalogger.setColumns": "Set the columns for future data logging",
+  "datalogger.setColumns|param|cols": "Array of the columns that will be logged."
+}

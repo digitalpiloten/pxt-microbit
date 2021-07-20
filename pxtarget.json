@@ -13,7 +13,9 @@
         "libs/servo",
         "libs/radio-broadcast",
         "libs/microphone",
-        "libs/settings"
+        "libs/settings",
+        "libs/flashlog",
+        "libs/datalogger"
     ],
     "cloud": {
         "workspace": false,
@@ -153,15 +155,16 @@
         },
         "mbcodal": {
             "compile": {
-                "flashUsableEnd": null,
-                "flashEnd": null
+                "flashCodeAlign": 4096,
+                "flashUsableEnd": 487424,
+                "flashEnd": 524288
             },
             "compileService": {
                 "buildEngine": "codal",
                 "codalTarget": {
                     "name": "codal-microbit-v2",
                     "url": "https://github.com/lancaster-university/codal-microbit-v2",
-                    "branch": "v0.2.24",
+                    "branch": "v0.2.32",
                     "type": "git"
                 },
                 "codalBinary": "MICROBIT",
@@ -212,8 +215,10 @@
         "partsAspectRatio": 0.69,
         "messageSimulators": {
             "jacdac": {
-                "url": "https://microsoft.github.io/jacdac-ts/tools/makecode-sim?webusb=0&parentOrigin=$PARENT_ORIGIN$",
-                "localHostUrl": "http://localhost:8000/tools/makecode-sim?webusb=0&parentOrigin=$PARENT_ORIGIN$"
+                "url": "https://microsoft.github.io/jacdac-docs/tools/makecode-sim?webusb=0&parentOrigin=$PARENT_ORIGIN$",
+                "localHostUrl": "http://localhost:8000/tools/makecode-sim?webusb=0&parentOrigin=$PARENT_ORIGIN$",
+                "aspectRatio": 1.22,
+                "permanent": true
             }
         },
         "boardDefinition": {
@@ -303,7 +308,10 @@
 
                 "builtinspeaker",
                 "microphone",
-                "logotouch"
+                "logotouch",
+                "flashlog",
+
+                "v2"
             ],
             "pinStyles": {
                 "P0": "croc",
@@ -350,10 +358,16 @@
         "appLogo": "./static/icons/apple-touch-icon.png",
         "organization": "Microsoft MakeCode",
         "organizationUrl": "https://makecode.com/",
-        "organizationLogo": "./static/Microsoft-logo_rgb_c-gray-square.png",
-        "organizationWideLogo": "./static/Microsoft-logo_rgb_c-white.png",
-        "homeScreenHero": "./static/hero.png",
-        "homeScreenHeroGallery": "/tutorials",
+        "organizationLogo": "./static/Microsoft_logo_rgb_W-white_D-square.png",
+        "organizationWideLogo": "./static/Microsoft_logo_rgb_W-white_D.png",
+        "homeScreenHero": {
+            "imageUrl": "/static/herogallery/hero-banner.png",
+            "name": "Flashing Heart",
+            "url": "/projects/flashing-heart",
+            "description": "New? Start here!",
+            "cardType": "tutorial"
+        },
+        "homeScreenHeroGallery": "/hero-banner",
         "homeUrl": "https://makecode.microbit.org/",
         "embedUrl": "https://makecode.microbit.org/",
         "shareUrl": "https://makecode.microbit.org/",
@@ -372,15 +386,15 @@
         "ignoreDocsErrors": false,
         "errorList": true,
         "allowPackageExtensions": true,
+        "addNewTypeScriptFile": true,
         "experiments": [
-            "autoWebUSBDownload",
-            "instructions",
             "accessibleBlocks",
             "debugExtensionCode",
             "bluetoothUartConsole",
             "bluetoothPartialFlashing",
             "simScreenshot",
-            "simGif"
+            "simGif",
+            "blocksErrorList"
         ],
         "bluetoothUartFilters": [
             {
@@ -529,6 +543,7 @@
             "ru",
             "si-LK",
             "sk",
+            "sr",
             "sv-SE",
             "tr",
             "uk",
@@ -541,7 +556,8 @@
         "browserDbPrefixes": {
             "1": "v1",
             "2": "v2",
-            "3": "v3"
+            "3": "v3",
+            "4": "v4"
         },
         "editorVersionPaths": {
             "0": "v0"
@@ -559,7 +575,31 @@
         "chooseLanguageRestrictionOnNewProject": true,
         "openProjectNewTab": true,
         "python": true,
-        "appFlashingTroubleshoot": "/device/windows-app/troubleshoot"
+        "appFlashingTroubleshoot": "/device/windows-app/troubleshoot",
+        "immersiveReader": true,
+        "tutorialCodeValidation": true,
+        "downloadDialogTheme": {
+            "webUSBDeviceNames": ["BBC micro:bit CMSIS-DAP", "DAPLink CMSIS-DAP"],
+            "minimumFirmwareVersion": "0249",
+            "deviceIcon": "xicon microbit",
+            "deviceSuccessIcon": "xicon microbit-check",
+
+            "downloadMenuHelpURL" : "/device/usb",
+            "downloadHelpURL" : "/device/usb",
+            "firmwareHelpURL": "/device/usb/webusb/troubleshoot",
+            "troubleshootWebUSBHelpURL": "/device/usb/webusb/troubleshoot",
+            "incompatibleHardwareHelpURL": "/device/v2",
+
+            "dragFileImage": "/static/download/transfer.png",
+            "connectDeviceImage": "/static/download/connect.png",
+            "selectDeviceImage": "/static/download/pair.png",
+            "connectionSuccessImage": "/static/download/connected.png",
+            "checkFirmwareVersionImage": "/static/download/firmware.png",
+            "checkUSBCableImage": "/static/download/connect.png",
+            "incompatibleHardwareImage": "/static/download/incompatible.png"
+        },
+        "winAppDeprImage": "/static/winapp.PNG",
+        "showWinAppDeprBanner": false
     },
     "queryVariants": {
         "hidemenu": {

@@ -4,7 +4,6 @@
             "microsoft/pxt-neopixel",
             "microsoft/pxt-microturtle",
             "microsoft/pxt-sonar",
-            "microsoft/pxt-hacking-stem",
             "microsoft/pxt-bluetooth-temperature-sensor",
             "microsoft/pxt-bluetooth-midi",
             "microsoft/pxt-max6675",
@@ -192,22 +191,41 @@
             "Schoumi/ssd1306-with-reset",
             "keble6/pxt-DS3231",
             "microsoft/ExpressivePixelsMakeCode",
+            "pimoroni/pxt-inkybit",
             "MUSELAB/pxt-muselab-oled-v2",
             "microsoft/pxt-jacdac",
             "CoolGuy-official/pxt-coolguy",
             "Bouw-je-BEP/Bouw-je-BEP",
-            "BirdBrainTechnologies/pxt-finch"
+            "BirdBrainTechnologies/pxt-finch",
+            "iBuilds/pxt-PTKidsBIT",
+            "Wappsto/pxt-wappsto",
+            "KS-Bulme/pxt-mikRobot",
+            "CytronTechnologies/pxt-rekabit",
+            "bsiever/microbit-dstemp",
+            "bsiever/microbit-dstemp-2wire",
+            "microsoft/pxt-data-streamer",
+            "iBuilds/pxt-PTKidsBIT-Robot",
+            "4tronix/EggBit",
+            "joy-it/SEN-MPU6050",
+            "gomakekit/Hoverbit_V2",
+            "Matrix-Robotics/pxt-MatrixMicro"
         ],
         "preferredRepos": [
             "Microsoft/pxt-neopixel",
-            "Microsoft/pxt-microturtle",
-            "Tinkertanker/pxt-tinkercademy-tinker-kit",
+            "4tronix/BitBot",
+            "dfrobot/pxt-maqueen",
             "kittenbot/pxt-robotbit",
             "Microsoft/pxt-sonar",
-            "4tronix/BitBot",
+            "Microsoft/pxt-microturtle",
+            "Tinkertanker/pxt-tinkercademy-tinker-kit",
+            "seeed-studio/pxt-grove",
+            "elecfreaks/pxt-cutebot",
+            "dfrobot/pxt-dfrobot-maqueenplus",
+            "tinkertanker/pxt-iot-environment-kit",
+            "tinkertanker/pxt-ringbitcar",
             "kitronikltd/pxt-kitronik-servo-lite",
             "kitronikltd/pxt-kitronik-motor-driver",
-            "Tinkertanker/pxt-ringbitcar"
+            "tinkertanker/pxt-smarthome"
         ],
         "upgrades": {
             "tinkertanker/pxt-iot-environment-kit": "min:v4.2.1",
@@ -239,16 +257,17 @@
             "sparkfun/pxt-gator-particle": "dv:mbcodal",
             "sparkfun/pxt-gator-microphone": "dv:mbcodal",
             "rebeccaclavier/pxt-bmp280": "dv:mbcodal",
-            "mu-opensource/pxt-muvision": "dv:mbcodal",
+            "mu-opensource/pxt-muvision": "min:v1.2.21",
             "elecfreaks/pxt-PlanetX": "min:v0.13.1",
             "bsiever/microbit-pxt-timeanddate": "min:v2.0.11"
         },
         "approvedEditorExtensionUrls": [
-            "https://microsoft.github.io/jacdac-ts/tools/makecode-editor-extension"
+            "https://microsoft.github.io/jacdac-docs/tools/makecode-editor-extension"
         ]
     },
     "galleries": {
         "Tutorials": "tutorials",
+        "Tutorials for the new micro:bit": "v2tutorials",
         "Live Coding": {
             "url": "live-coding",
             "shuffle": "daily",
@@ -262,7 +281,7 @@
         "Science": "projects/science",
         "Tools": "projects/tools",
         "Turtle": "projects/turtle",
-        "Blocks To JavaScript": "courses/blocks-to-javascript",
+        "Blocks to JavaScript": "courses/blocks-to-javascript",
         "Courses": "courses",
         "Behind the MakeCode Hardware": {
             "url": "behind-the-makecode-hardware",

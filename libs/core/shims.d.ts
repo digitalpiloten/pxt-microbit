@@ -396,8 +396,9 @@ declare namespace control {
      * Blocks the current fiber for the given microseconds
      * @param micros number of micro-seconds to wait. eg: 4
      */
-    //% help=control/wait-micros weight=29
-    //% blockId="control_wait_us" block="wait (µs)%micros" shim=control::waitMicros
+    //% help=control/wait-micros weight=29 async
+    //% blockId="control_wait_us" block="wait (µs)%micros"
+    //% micros.min=0 micros.max=6000 shim=control::waitMicros
     function waitMicros(micros: int32): void;
 
     /**
@@ -444,6 +445,12 @@ declare namespace control {
     function deviceName(): string;
 
     /**
+     * Returns the major version of the microbit
+     */
+    //% help=control/hardware-version shim=control::_hardwareVersion
+    function _hardwareVersion(): string;
+
+    /**
      * Derive a unique, consistent serial number of this device from internal data.
      */
     //% blockId="control_device_serial_number" block="device serial number" weight=9
@@ -484,6 +491,38 @@ declare namespace control {
     /** Write a message and value (pointer) to DMESG debugging buffer. */
     //% shim=control::dmesgPtr
     function dmesgPtr(str: string, ptr: Object): void;
+}
+declare namespace control {
+
+    /**
+     * Force GC and dump basic information about heap.
+     */
+    //% shim=control::gc
+    function gc(): void;
+
+    /**
+     * Force GC and halt waiting for debugger to do a full heap dump.
+     */
+    //% shim=control::heapDump
+    function heapDump(): void;
+
+    /**
+     * Set flags used when connecting an external debugger.
+     */
+    //% shim=control::setDebugFlags
+    function setDebugFlags(flags: int32): void;
+
+    /**
+     * Record a heap snapshot to debug memory leaks.
+     */
+    //% shim=control::heapSnapshot
+    function heapSnapshot(): void;
+
+    /**
+     * Return true if profiling is enabled in the current build.
+     */
+    //% shim=control::profilingEnabled
+    function profilingEnabled(): boolean;
 }
 
 

@@ -62,6 +62,10 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
 
 ```codecard
 [{
+    "name": "Pimoroni inky:bit",
+    "url": "/pkg/pimoroni/pxt-inkybit",
+    "cardType": "package"
+}, {
     "name": "Kitronik :VIEW text32",
     "url": "/pkg/KitronikLtd/pxt-kitronik-viewtext32",
     "cardType": "package"
@@ -152,6 +156,18 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
 
 ```codecard
 [{
+ "name": "MPU6050 Gyroscope",
+  "url":"/pkg/joy-it/SEN-MPU6050",
+  "cardType": "package"
+}, {
+ "name": "DS18B20",
+  "url":"/pkg/bsiever/microbit-dstemp",
+  "cardType": "package"
+}, {
+ "name": "DS18B20 two wire",
+  "url":"/pkg/bsiever/microbit-dstemp-2wire",
+  "cardType": "package"
+}, {
  "name": "DS3231",
   "url":"/pkg/keble6/pxt-DS3231",
   "cardType": "package"
@@ -266,6 +282,10 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
 
 ```codecard
 [{
+  "name": "Wappsto:bit",
+  "url":"/pkg/Wappsto/pxt-wappsto",
+  "cardType": "package"
+}, {
   "name": "Hardwario IoT Kit",
   "url":"/pkg/hardwario/pxt-microbit-hardwario",
   "cardType": "package"
@@ -296,6 +316,10 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
 
 ```codecard
 [{
+   "name": "PT-BOT PTKidsBIT",
+   "url": "/pkg/iBuilds/pxt-PTKidsBIT",
+   "cardType": "package"
+}, {
    "name": "Pi Supply tinker:kit",
    "url": "/pkg/PiSupply/pxt-tinker-kit",
    "cardType": "package"
@@ -377,6 +401,18 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
 
 ```codecard
 [{
+  "name": "MakeKit Hoverbit",
+  "url":"/pkg/gomakekit/Hoverbit_V2",
+  "cardType": "package"
+}, {
+  "name": "MATRIX Micro",
+  "url":"/pkg/pxt-MatrixMicro",
+  "cardType": "package"
+}, {
+  "name": "PTKidsBIT",
+  "url":"/pkg/iBuilds/pxt-PTKidsBIT-Robot",
+  "cardType": "package"
+}, {
   "name": "Finch 2.0",
   "url":"/pkg/BirdBrainTechnologies/pxt-finch",
   "cardType": "package"
@@ -537,6 +573,10 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
   "url":"/pkg/1010Technologies/pxt-makerbit-motor",
   "cardType": "package"
 }, {
+  "name": "mikRobot",
+  "url":"/pkg/KS-Bulme/pxt-mikRobot",
+  "cardType": "package"
+}, {
   "name": "Tobbie II",
   "url":"/pkg/kaku111/pxt-tobbieII",
   "cardType": "package"
@@ -607,6 +647,10 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
   "url":"/pkg/CytronTechnologies/pxt-edubit",
   "cardType": "package"
 }, {
+  "name": "Cytron Rekabit",
+  "url":"/pkg/CytronTechnologies/pxt-rekabit",
+  "cardType": "package"
+}, {
   "name": "Imagimaker Magisheild",
   "url":"/pkg/Imagimaker/pxt-imagimaker",
   "cardType": "package"
@@ -675,6 +719,10 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
 
 ```codecard
 [{
+  "name": "4tronix EggBit",
+  "url":"/pkg/4tronix/EggBit",
+  "cardType": "package"
+}, {
   "name": "Bright Wearables Bright Board",
   "url":"/pkg/BrightWearables/pxt-microbit-brightboard",
   "cardType": "package"
@@ -702,10 +750,6 @@ Check out [the accessories pages on microbit.org](https://microbit.org/buy/acces
 }, {
   "name": "Inventura textbook",
   "url":"/pkg/assirati/pxt-inventura",
-  "cardType": "package"
-}, {
-  "name": "File System",
-  "url":"/pkg/microsoft/pxt-filesystem",
   "cardType": "package"
 }, {
   "name": "micro:turtle",
