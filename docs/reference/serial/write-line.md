@@ -1,10 +1,10 @@
-# Serial Write Line
+# write Line
 
 Write a string to the [serial](/device/serial) port and start a new line of text 
 by writing `\r\n`.
 
 ```sig
-serial.writeLine("");
+serial.writeLine("")
 ```
 
 ## Parameters
@@ -18,10 +18,10 @@ serial.writeLine("");
 Write the word `BOFFO` to the serial port repeatedly.
 
 ```blocks
-basic.forever(() => {
-    serial.writeLine("BOFFO");
-    basic.pause(5000);
-});
+basic.forever(function() {
+    serial.writeLine("BOFFO")
+    basic.pause(5000)
+})
 ```
 
 ### Streaming data
@@ -31,7 +31,7 @@ Check the [compass heading](/reference/input/compass-heading) and show the direc
 ```blocks
 let degrees = 0
 let direction = ""
-basic.forever(() => {
+basic.forever(function() {
     degrees = input.compassHeading()
     if (degrees < 45) {
         basic.showArrow(ArrowNames.North)
@@ -57,6 +57,6 @@ basic.forever(() => {
 ## See also
 
 [serial](/device/serial),
-[serial write number](/reference/serial/write-number),
-[serial write string](/reference/serial/write-string),
-[serial write value](/reference/serial/write-value)
+[write number](/reference/serial/write-number),
+[write string](/reference/serial/write-string),
+[write value](/reference/serial/write-value)

@@ -6,7 +6,7 @@ Work with your conditional loop blocks in JavaScript and make them do more.
 
 ## ~
 
-The conditional loops let you run some part of a program multiples times while some condtion remains true. In MakeCode these conditional loops are in the **[while](/blocks/loops/while)**, **[for](/blocks/loops/for)**, and **[repeat](/blocks/loops/repeat)** blocks:
+The conditional loops let you run some part of a program multiples times while some condition remains true. In MakeCode these conditional loops are in the **[while](/blocks/loops/while)**, **[for](/blocks/loops/for)**, and **[repeat](/blocks/loops/repeat)** blocks:
 
 ```block
 while (true) {}
@@ -43,7 +43,7 @@ One thing you may not have expected is that the ``||loops:repeat||`` block is ac
 
 ## While Loop
 
-The ``||loops:while||`` loop is probably the simplist of the loops. It has just a single condition that, while true, causes the code inside the loop to continue to run. The loop here will show the number in the ``count`` variable on the screen until ``count`` reaches the value of `5`.
+The ``||loops:while||`` loop is probably the simplest of the loops. It has just a single condition that, while true, causes the code inside the loop to continue to run. The loop here will show the number in the ``count`` variable on the screen until ``count`` reaches the value of `5`.
 
 
 ```block
@@ -79,7 +79,7 @@ let count = 0
 } while (count < 5)
 ```
 
-You'll have a squiggle at the end of the line with ``} while (count < 5)`` which means we have invalid code. Don't worry, we'll fix that right now! At the beginning of the loop, insert the word ``do`` just before left brace `{`. The error should go away and the simulator will count from `0` to `4` just like before when the word ``while`` was at the beginning of the loop. 
+You'll have a squiggle at the end of the line with ``} while (count < 5)`` which means we have invalid code. Don't worry, we'll fix that right now! At the beginning of the loop, insert the word ``do`` just before left brace `{`. The error should go away and the simulator will count from `0` to `4` just like before when the word ``while`` was at the beginning of the loop.
 
 ```typescript
 let count = 0
@@ -113,9 +113,9 @@ for (let index = 4; index >= 0; index--) {
 }
 ```
 
-You'll now see in the simulator that the value displayed on the screen counts down from `4` to `0`. This form of the **for** loop is too complicatied for blocks so when you switch back to the Blocks editor the entire loop is shown in a grey block.
+You'll now see in the simulator that the value displayed on the screen counts down from `4` to `0`. This form of the **for** loop is too complicated for blocks so when you switch back to the Blocks editor the entire loop is shown in a grey block.
 
-```block
+```block-ignore
 for (let index = 4; index >= 0; index--) {
     basic.showNumber(index)
     basic.pause(500)
@@ -196,4 +196,4 @@ for (let index = 0; index < 5; index++) {
 }
 ```
 
-Ah! Our original ``||loops:repeat||`` loop changed to a ``||loops:for||`` loop! Why? Well, this is because the code inside the loop used the index from the loop statement. This makes the loop more complex and it's no longer just simply repeating what's inside of it. 
+Ah! Our original ``||loops:repeat||`` loop changed to a ``||loops:for||`` loop! Why? Well, this is because the code inside the loop used the index from the loop statement. This makes the loop more complex and it's no longer just simply repeating what's inside of it.

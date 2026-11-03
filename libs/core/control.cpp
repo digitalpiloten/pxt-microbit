@@ -16,6 +16,8 @@ enum class EventCreationMode {
     CreateAndFire = CREATE_AND_FIRE,
 };
 
+const char *MICROBIT_BOARD_VERSION[3] = { "2.0", "2.2", "2.X" };
+
 // note the trailing '_' in names - otherwise we get conflict with the pre-processor
 // this trailing underscore is removed by enums.d.ts generation process
 
@@ -256,6 +258,7 @@ namespace control {
     */
     //% help=control/wait-for-event async
     //% blockId=control_wait_for_event block="wait for event|from %src|with value %value"
+    //% src.label="source" value.label="value"
     void waitForEvent(int src, int value) {
         pxt::waitForEvent(src, value);
     }
@@ -269,12 +272,20 @@ namespace control {
       microbit_reset();
     }
 
+
+    
+
+    //%
+    void singleSimulator() { }
+
     /**
     * Blocks the current fiber for the given microseconds
     * @param micros number of micro-seconds to wait. eg: 4
     */
-    //% help=control/wait-micros weight=29
+    //% help=control/wait-micros weight=29 async
     //% blockId="control_wait_us" block="wait (µs)%micros"
+    //% micros.label="microseconds"
+    //% micros.min=0 micros.max=6000
     void waitMicros(int micros) {
         sleep_us(micros);
     }
@@ -286,6 +297,7 @@ namespace control {
      * @param mode optional definition of how the event should be processed after construction (default is CREATE_AND_FIRE).
      */
     //% weight=21 blockGap=12 blockId="control_raise_event" block="raise event|from source %src=control_event_source_id|with value %value=control_event_value_id" blockExternalInputs=1
+    //% src.label="source" value.label="value"
     //% help=control/raise-event
     //% mode.defl=CREATE_AND_FIRE
     void raiseEvent(int src, int value, EventCreationMode mode) {
@@ -296,6 +308,7 @@ namespace control {
      * Registers an event handler.
      */
     //% weight=20 blockGap=8 blockId="control_on_event" block="on event|from %src=control_event_source_id|with value %value=control_event_value_id"
+    //% src.label="source" value.label="value"
     //% help=control/on-event
     //% blockExternalInputs=1
     void onEvent(int src, int value, Action handler, int flags = 0) {
@@ -331,6 +344,33 @@ namespace control {
     //% advanced=true
     String deviceName() {
         return mkString(microbit_friendly_name(), -1);
+    }
+
+    /**
+     * Returns the major version of the microbit
+     */
+    //% help=control/hardware-version
+    String _hardwareVersion() {
+        #if MICROBIT_CODAL
+            MicroBitVersion v = uBit.power.getVersion();
+            int versionIdx;
+            switch (v.board) {
+                case 0x9903:
+                case 0x9904:
+                    versionIdx = 0;
+                    break;
+                case 0x9905:
+                case 0x9906:
+                    versionIdx = 1;
+                    break;
+                default:
+                    versionIdx = 2;
+                    break;
+            }
+            return mkString(MICROBIT_BOARD_VERSION[versionIdx], -1);
+        #else
+            return mkString("1.X", 1);
+        #endif
     }
 
     /**

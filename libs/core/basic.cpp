@@ -6,11 +6,10 @@
  */
 //% color=#1E90FF weight=116 icon="\uf00a"
 namespace basic {
-
     /**
      * Draws an image on the LED screen.
-     * @param leds the pattern of LED to turn on/off
-     * @param interval time in milliseconds to pause after drawing
+     * @param leds the pattern of LED to turn on/off.
+     * @param interval time in milliseconds to pause after drawing.
      */
     //% help=basic/show-leds
     //% weight=95 blockGap=8
@@ -30,6 +29,7 @@ namespace basic {
     //% help=basic/show-string
     //% weight=87 blockGap=16
     //% block="show|string %text"
+    //% text.label="value"
     //% async
     //% blockId=device_print_message
     //% parts="ledmatrix"
@@ -61,7 +61,7 @@ namespace basic {
     /**
      * Shows a sequence of LED screens as an animation.
      * @param leds pattern of LEDs to turn on/off
-     * @param interval time in milliseconds between each redraw
+     * @param interval time in milliseconds between each redraw.
      */
     //% help=basic/show-animation imageLiteral=1 async
     //% parts="ledmatrix"
@@ -96,6 +96,7 @@ namespace basic {
      */
     //% help=basic/pause weight=54
     //% async block="pause (ms) %pause" blockGap=16
+    //% ms.label="value"
     //% blockId=device_pause icon="\uf110"
     //% pause.shadow=timePicker
     void pause(int ms) {

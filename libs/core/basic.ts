@@ -7,10 +7,14 @@ namespace basic {
     //% help=basic/show-number
     //% weight=96
     //% blockId=device_show_number block="show|number %number" blockGap=8
+    //% value.label="value"
     //% async
     //% parts="ledmatrix" interval.defl=150
     export function showNumber(value: number, interval?: number) {
-        showString(Math.roundWithPrecision(value, 2).toString(), interval);
+        if (isNaN(value))
+            showString("?")
+        else
+            showString(Math.roundWithPrecision(value, 2).toString(), interval);
     }
 }
 
@@ -19,6 +23,7 @@ namespace basic {
  * @param ms how long to pause for, eg: 100, 200, 500, 1000, 2000
  */
 function pause(ms: number): void {
+    if (isNaN(ms)) ms = 20
     basic.pause(ms);
 }
 

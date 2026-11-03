@@ -15,7 +15,8 @@ between @boardname@s using the radio antenna, just like a phone can send text me
 Let's add blocks that send a number when button ``A`` is pressed. We assume that `0` is the "mood code" to send for **smiley**.
 
 ```blocks
-input.onButtonPressed(Button.A, () => {
+radio.setGroup(1)
+input.onButtonPressed(Button.A, function () {
     radio.sendNumber(0)
     basic.showIcon(IconNames.Happy)
 })
@@ -40,13 +41,13 @@ radio.onReceivedNumber(function (receivedNumber) {
 Adding another mood to our messaging app done in a similar way. We decide that the "mood code" of `1` means **frowny**. We can add a ``B`` button event that sends that code.
 
 ```blocks
-input.onButtonPressed(Button.B, () => {
+input.onButtonPressed(Button.B, function () {
     radio.sendNumber(1)
     basic.showIcon(IconNames.Sad)
 })
 ```
 
-If the ``||radio:on received number||`` block, we add another conditional ``||logic:if then||`` statement to handle the **frowny** "mood code".
+If the ``||radio:on received number||`` event happens, we add in another conditional ``||logic:if then||`` statement to handle the **frowny** "mood code".
 
 ```blocks
 radio.onReceivedNumber(function (receivedNumber) {
@@ -65,14 +66,15 @@ That's it. Download your code to multiple @boardname@s and try it out!
 
 Try adding a new code and use the ``||input:on shake||`` event to send it.
 
-## Full sources
+## Complete program
 
 ```blocks
-input.onButtonPressed(Button.A, () => {
+radio.setGroup(1)
+input.onButtonPressed(Button.A, function () {
     radio.sendNumber(0)
     basic.showIcon(IconNames.Happy)
 })
-input.onButtonPressed(Button.B, () => {
+input.onButtonPressed(Button.B, function () {
     radio.sendNumber(1)
     basic.showIcon(IconNames.Sad)
 })

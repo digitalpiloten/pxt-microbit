@@ -3,7 +3,7 @@
 Write a **name:value** pair and a newline character (`\r\n`) to the [serial](/device/serial) port.
 
 ```sig
-serial.writeValue("x", 0);
+serial.writeValue("x", 0)
 ```
 
 It is common when reporting or recording data to use a _Name Value Pair_ (NVP). They appear as a text output string in the form of a _name_ and a _value_ together. The name and the value are separated in the string with a _colon_, `:`. A name value pair reporting a temperature of `-15` degrees could look like:
@@ -31,17 +31,19 @@ Every 10 seconds, the example below sends the temperature and light level
 to the serial port.
 
 ```blocks
-basic.forever(() => {
+basic.forever(function() {
     serial.writeValue("temp", input.temperature())
     serial.writeValue("light", input.lightLevel())
-    basic.pause(10000);
+    basic.pause(10000)
 })
 ```
 
 ### ~hint
 
+#### Radio-Serial gateway
+
 The [send value](/reference/radio/send-value) function broadcasts
-string/number pairs.  You can use a second @boardname@ to receive them,
+string/number pairs. You can use a second @boardname@ to receive them,
 and then send them directly to the serial port with ``write value``.
 
 ### ~
@@ -49,6 +51,6 @@ and then send them directly to the serial port with ``write value``.
 ## See also
 
 [serial](/device/serial),
-[serial write line](/reference/serial/write-line),
-[serial write number](/reference/serial/write-number),
+[write line](/reference/serial/write-line),
+[write number](/reference/serial/write-number),
 [send value](/reference/radio/send-value)

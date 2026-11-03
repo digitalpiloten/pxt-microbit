@@ -8,7 +8,9 @@ pins.i2cReadNumber(0, NumberFormat.Int8LE, false);
 
 ### ~ hint
 
-**Simulator**: This function needs real hardware to work with. It's not supported in the simulator.
+#### Simulator
+
+This function needs real hardware to work with. It's not supported in the simulator.
 
 ### ~
 
@@ -22,7 +24,7 @@ pins.i2cReadNumber(0, NumberFormat.Int8LE, false);
 
 #### Repeated start
 
-A [repeated start condition](http://www.i2c-bus.org/repeated-start-condition/) is set to help make sure that when you want to read multiple numbers from the device at one time, it can happen without interruption. A start conditon is sent (if **repeated** is `true`) each time a number is read without a matching stop condition. When the last number is read, the stop conditon can be sent by setting **repeated** to `false`. For single reads, don't use **repeated** or set it to `false`.
+A [repeated start condition](http://www.i2c-bus.org/repeated-start-condition/) is set to help make sure that when you want to read multiple numbers from the device at one time, it can happen without interruption. A start condition is sent (if **repeated** is `true`) each time a number is read without a matching stop condition. When the last number is read, the stop condition can be sent by setting **repeated** to `false`. For single reads, don't use **repeated** or set it to `false`.
 
 #### Reserved addresses
 

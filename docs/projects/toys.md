@@ -24,12 +24,21 @@
   "description": "A tickelish robot!",
   "imageUrl":"/static/mb/projects/ticklebot.jpg"
 }, {
+   "name": "Octobot",
+   "url": "https://browndoggadgets.dozuki.com/Guide/Octobot/306",
+   "description": "Don't wake the Ocotobot!",
+   "imageUrl": "/static/mb/projects/octobot.jpg"
+}, {
+  "name": "Two Player Maze",
+  "url": "https://tinker-club.blogspot.com/p/two-player-maze-game-for-microbit.html",
+  "description": "Build a metal ball maze for 2 players!",
+  "imageUrl": "/static/mb/projects/twoplayermaze.jpg"
+}, {
   "name": "Milky Monster",
   "url":"/projects/milky-monster",
   "description": "Make a funny milky-monster robot!",
   "imageUrl":"/static/mb/projects/milky-monster.jpg"
-}
-]
+}]
 ```
 
 ## Reusing toys

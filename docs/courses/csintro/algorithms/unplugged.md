@@ -1,5 +1,7 @@
 # Unplugged: What's your function & crazy conditionals
 
+This is a classroom activity that teachers might choose to run with a classroom of students.
+
 Materials
 * Pencils
 * Paper (or index cards)

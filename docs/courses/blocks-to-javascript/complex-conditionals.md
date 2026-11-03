@@ -71,15 +71,15 @@ basic.forever(function () {
 
 The two ``||input:button is pressed||`` blocks are connected with an ``||logic:or||`` in the ``||logic:if then||`` conditional to make the check to see if one of the two buttons is currently pressed.
 
-Looking at the condition inside the ``if`` statement in JavaScript editor, we see that the two conditions are connected with the OR (``||``) operator which makes the condition `true` if either button is pressed. So, the conditions work in _parallel_.
+Looking at the condition inside the ``if`` statement in the JavaScript editor, we see that the two conditions are connected with the OR (``||``) operator which makes the condition `true` if either button is pressed. So, the conditions work in _parallel_.
 
-```typescript
+```typescript-ignore
 if (input.buttonIsPressed(Button.A) || input.buttonIsPressed(Button.B)) {
     basic.showIcon(IconNames.Square)
 }
 ```
 
-We can create the same conditional check as in the code above but with a different form. Changing the code slighlty, we can insert an ``||logic:else if||`` and put one of the button press conditons inside of it. This version checks for either button press like before but it needs another ``||basic:show icon||`` which adds more code.
+We can create the same conditional check as in the code above but with a different form. Changing the code slightly, we can insert an ``||logic:else if||`` and put one of the button press conditions inside of it. This version checks for either button press like before but it needs another ``||basic:show icon||`` which adds more code.
 
 
 ```blocks
@@ -96,7 +96,7 @@ basic.forever(function () {
 
 ## Conditional expressions
 
-Often you will need to set a boolean variable to remember the result of a conditional test. If we want to set a boolean variable called ``cold`` to `true` when the tempurature is less than `10` degress, we could do it using an ``||logic:if then else||`` block.
+Often you will need to set a boolean variable to remember the result of a conditional test. If we want to set a boolean variable called ``cold`` to `true` when the temperature is less than `10` degrees, we could do it using an ``||logic:if then else||`` block.
 
 ```block
 let cold = false
@@ -115,7 +115,7 @@ let cold = input.temperature() < 10
 
 In the JavaScript editor, this block appears as this simple variable assignment:
 
-```typescript
+```typescript-ignore
 let cold = input.temperature() < 10
 ```
 
@@ -130,7 +130,7 @@ if (input.temperature() < 10) {
 }
 ```
 
-Now let's use the condtion in the ``||logic:if then else||`` block to set the string variable ``heatMessage`` directly. To do this we need to switch over to the JavaScript editor. Instead of using the result of the conditional expression to set the value of the variable, the expression will determine a value option for ``heatMessage``.
+Now let's use the condition in the ``||logic:if then else||`` block to set the string variable ``heatMessage`` directly. To do this we need to switch over to the JavaScript editor. Instead of using the result of the conditional expression to set the value of the variable, the expression will determine a value option for ``heatMessage``.
 
 To set the variable based on the result of the expression, the value options are placed right after the expression using a `?`. The the value option for a `true` result is stated first and then followed by a `:` with the value option for a `false` result after that. It looks like this:
 
@@ -138,4 +138,4 @@ To set the variable based on the result of the expression, the value options are
 let heatMessage = input.temperature() < 10 ? "COLD" : "WARM"
 ```
 
-The ``heatMeassage`` variable is set to the string saying ``"COLD"`` if the temperature is less than `10` degrees celsius or to ``"WARM"`` when it's `10` degrees or warmer.
+The ``heatMessage`` variable is set to the string saying ``"COLD"`` if the temperature is less than `10` degrees celsius or to ``"WARM"`` when it's `10` degrees or warmer.

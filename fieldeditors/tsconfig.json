@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es2017",
         "noImplicitAny": false,
         "noImplicitReturns": true,
         "module": "commonjs",
@@ -9,6 +9,7 @@
         "newLine": "LF",
         "sourceMap": false,
         "allowSyntheticDefaultImports": true,
-        "declaration": true
+        "declaration": true,
+        "types": []
     }
 }

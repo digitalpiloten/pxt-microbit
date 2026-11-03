@@ -11,6 +11,7 @@ namespace music {
  * @param volume the volume 0...255
  */
 //% blockId=synth_set_volume block="set volume %volume"
+//% volume.label="value"
 //% volume.min=0 volume.max=255
 //% volume.defl=127
 //% help=music/set-volume
@@ -47,11 +48,12 @@ int volume() {
 * @param enabled whether the built-in speaker is enabled in addition to the sound pin
 */
 //% blockId=music_set_built_in_speaker_enable block="set built-in speaker $enabled"
-//% blockGap=8
+//% enabled.label="value"
 //% group="micro:bit (V2)"
 //% parts=builtinspeaker
 //% help=music/set-built-in-speaker-enabled
 //% enabled.shadow=toggleOnOff
+//% weight=0
 void setBuiltInSpeakerEnabled(bool enabled) {
 #if MICROBIT_CODAL
     uBit.audio.setSpeakerEnabled(enabled);
@@ -60,6 +62,26 @@ void setBuiltInSpeakerEnabled(bool enabled) {
     if (enabled) {
         target_panic(PANIC_VARIANT_NOT_SUPPORTED);
     }
+#endif
+}
+
+/**
+* Check whether any sound is being played, no matter the source
+*/
+//% blockId=music_sound_is_playing block="sound is playing"
+//% group="micro:bit (V2)"
+//% help=music/is-sound-playing
+//% weight=0
+bool isSoundPlaying() {
+#if MICROBIT_CODAL
+    if (uBit.audio.mixer.getSilenceStartTime() == 0) {
+        return false;
+    } else {
+        return uBit.audio.isPlaying();
+    }
+
+#else
+    target_panic(PANIC_VARIANT_NOT_SUPPORTED);
 #endif
 }
 

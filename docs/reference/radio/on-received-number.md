@@ -11,13 +11,15 @@ radio.onReceivedNumber(function (receivedNumber) {})
 
 * **receivedNumber**: The [number](/types/number) that was sent in this packet or `0` if this packet did not contain a number. See [send number](/reference/radio/send-number) and [send value](/reference/radio/send-value)
 
-## ~ hint
+### ~ hint
+
+#### @boardname@ radio
 
 Watch this video to see how the radio hardware works on the @boardname@:
 
 https://www.youtube.com/watch?v=Re3H2ISfQE8
 
-## ~
+### ~
 
 ## Examples
 
@@ -29,6 +31,7 @@ thing from nearby @boardname@s. It shows these numbers as a
 [bar graph](/reference/led/plot-bar-graph).
 
 ```blocks
+radio.setGroup(1)
 basic.forever(() => {
     radio.sendNumber(input.acceleration(Dimension.X));
 })
@@ -43,6 +46,7 @@ This program uses the signal strength from received packets to graph the
 approximate distance between two @boardname@s.
 
 ```blocks
+radio.setGroup(1)
 basic.forever(() => {
     radio.sendNumber(0)
 })

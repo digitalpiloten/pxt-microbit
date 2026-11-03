@@ -114,8 +114,12 @@ enum IconNames {
     //% jres=icons.quarternote
     QuarterNote,
     //% block="eigth note"
-    //% jres=icons.eigthnote
+    //% jres=icons.eighthnote
+    //% deprecated=true blockHidden=true
     EigthNote,
+    //% block="eighth note"
+    //% jres=icons.eighthnote
+    EighthNote,
     //% block="pitchfork"
     //% jres=icons.pitchfork
     Pitchfork,
@@ -196,6 +200,7 @@ namespace basic {
     //% weight=50 blockGap=8
     //% blockId=basic_show_arrow
     //% block="show arrow %i=device_arrow"
+    //% direction.label="direction"
     //% parts="ledmatrix"
     //% help=basic/show-arrow
     export function showArrow(direction: number, interval = 600) {
@@ -506,6 +511,12 @@ namespace images {
                                         . . # . .
                                         . . # . .
                                         . . # . .
+                                        # # # . .
+                                        # # # . .`);
+            case IconNames.EighthNote: return images.createImage(`
+                                        . . # . .
+                                        . . # # .
+                                        . . # . #
                                         # # # . .
                                         # # # . .`);
             case IconNames.EigthNote: return images.createImage(`

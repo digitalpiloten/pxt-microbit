@@ -12,7 +12,7 @@ To measure this, we read the voltage on pin **P0** using ``||pins:analog read pi
 which returns a value between ``0`` (no current) and ``1023`` (maximum current). The value is graph on the screen using ``||led:plot bar graph||``.
 
 ```blocks
-basic.forever(() => {
+basic.forever(function () {
     led.plotBarGraph(
         pins.analogReadPin(AnalogPin.P0),
         1023
@@ -33,7 +33,7 @@ This code needs to go into the ``||basic:forever||`` loop. We've also added the 
 
 ```blocks
 let reading = 0
-basic.forever(() => {
+basic.forever(function () {
     reading = pins.analogReadPin(AnalogPin.P0)
     led.plotBarGraph(
         reading,
@@ -47,8 +47,17 @@ basic.forever(() => {
 
 ### Experiment!
 
-* Insert the nails in the dry dirt, press **A** and note the value. You should see a value close to around ``250``for dry dirt.
-* Insert the nails in the wet dirt, press **A** and note the value. You should see a value somewhere near ``1000`` for wet dirt.
+Test and record the **P0** input values for both very dry dirt and for dirt that is wet. This will let you know the what the moisture scale of your meter is. The dry soil will have a low value and the wet soil will have a higher value.
+
+1. Insert the nails in the dry dirt, press **A** and record the value.
+2. Insert the nails in the wet dirt, press **A** and record the value.
+
+Here's an example test table of results for very dry and wet dirt using both versions of the @boardname@:
+
+| Soil | micro:bit V1 | micro:bit V2 |
+|---|---|---|
+| Dry | 250 | 600 |
+| Wet | 1000 | 1000 |
 
 <br/>
 https://youtu.be/S8NppVT_paw
@@ -68,10 +77,11 @@ This saves electricity and also avoids corrosion of the probes.
 ```blocks
 led.setBrightness(64)
 let reading = 0
-basic.forever(() => {
-    pins.analogWritePin(AnalogPin.P1, 1023)
+basic.forever(function () {
+    pins.digitalWritePin(DigitalPin.P1, 1)
+    basic.pause(1)
     reading = pins.analogReadPin(AnalogPin.P0)
-    pins.analogWritePin(AnalogPin.P1, 0)
+    pins.digitalWritePin(DigitalPin.P1, 0)
     led.plotBarGraph(
         reading,
         1023

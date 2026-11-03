@@ -113,12 +113,16 @@ enum BeatFraction {
     //% block=1
     Whole = 1,
     //% block="1/2"
+    //% ariaLabel="one half"
     Half = 2,
     //% block="1/4"
+    //% ariaLabel="one quarter"
     Quarter = 4,
     //% block="1/8"
+    //% ariaLabel="one eighth"
     Eighth = 8,
     //% block="1/16"
+    //% ariaLabel="one sixteenth"
     Sixteenth = 16,
     //% block="2"
     Double = 32,
@@ -178,6 +182,7 @@ namespace music {
     const INTERNAL_MELODY_ENDED = 5;
 
     let beatsPerMinute: number = 120;
+    let stopSoundHandlers: (() => void)[];
     //% whenUsed
     const freqs = hex`
         1f00210023002500270029002c002e003100340037003a003e004100450049004e00520057005c00620068006e00
@@ -195,10 +200,13 @@ namespace music {
      */
     //% help=music/play-tone weight=90
     //% blockId=device_play_note block="play|tone %note=device_note|for %duration=device_beat" blockGap=8
+    //% frequency.label="note" ms.label="duration"
     //% parts="headphone"
     //% useEnumVal=1
     //% group="Tone"
+    //% deprecated=1
     export function playTone(frequency: number, ms: number): void {
+        if (isNaN(frequency) || isNaN(ms)) return;
         if (_playTone) _playTone(frequency, ms);
         else pins.analogPitch(frequency, ms);
     }
@@ -209,6 +217,7 @@ namespace music {
      */
     //% help=music/ring-tone weight=80
     //% blockId=device_ring block="ring tone (Hz)|%note=device_note" blockGap=8
+    //% frequency.label="note"
     //% parts="headphone"
     //% useEnumVal=1
     //% group="Tone"
@@ -221,7 +230,8 @@ namespace music {
      * @param ms rest duration in milliseconds (ms)
      */
     //% help=music/rest weight=79
-    //% blockId=device_rest block="rest(ms)|%duration=device_beat"
+    //% blockId=device_rest block="rest for |%duration=device_beat"
+    //% ms.label="value"
     //% parts="headphone"
     //% group="Tone"
     export function rest(ms: number): void {
@@ -288,10 +298,12 @@ namespace music {
      */
     //% help=music/change-tempo-by weight=39
     //% blockId=device_change_tempo block="change tempo by (bpm)|%value" blockGap=8
+    //% bpm.label="value"
     //% group="Tempo"
     //% weight=100
     export function changeTempoBy(bpm: number): void {
         init();
+        if (isNaN(bpm)) return;
         setTempo(beatsPerMinute + bpm);
     }
 
@@ -301,29 +313,46 @@ namespace music {
      */
     //% help=music/set-tempo weight=38
     //% blockId=device_set_tempo block="set tempo to (bpm)|%value"
-    //% bpm.min=4 bpm.max=400
+    //% bpm.label="value"
+    //% bpm.min=40 bpm.max=500
     //% group="Tempo"
     //% weight=99
     export function setTempo(bpm: number): void {
         init();
+        if (isNaN(bpm)) return;
         if (bpm > 0) {
             beatsPerMinute = Math.max(1, bpm);
         }
     }
 
-    let currentMelody: Melody;
-    let currentBackgroundMelody: Melody;
+    let currentMelody: MelodyReader;
+    let currentBackgroundMelody: MelodyReader;
 
     /**
      * Gets the melody array of a built-in melody.
      * @param name the note name, eg: Note.C
      */
-    //% weight=50 help=music/builtin-melody
+    //% weight=50 help=music/built-in-melody
     //% blockId=device_builtin_melody block="%melody"
     //% blockHidden=true
     //% group="Melody Advanced"
+    //% deprecated=1
     export function builtInMelody(melody: Melodies): string[] {
         return getMelody(melody);
+    }
+
+    /**
+     * Gets the melody array of a built-in melody.
+     * @param melody the melody name
+     */
+    //% weight=60 help=music/built-in-playable-melody
+    //% blockId=device_builtin_melody_playable block="melody|$melody"
+    //% toolboxParent=music_playable_play_default_bkg
+    //% toolboxParentArgument=toPlay
+    //% duplicateShadowOnDrag
+    //% group="Melody Advanced"
+    export function builtInPlayableMelody(melody: Melodies): StringArrayPlayable {
+        return new StringArrayPlayable(getMelody(melody), undefined);
     }
 
     /**
@@ -343,7 +372,7 @@ namespace music {
     //% parts="headphone"
     //% group="Melody Advanced"
     export function beginMelody(melodyArray: string[], options: MelodyOptions = 1) {
-        return startMelody(melodyArray, options);
+        return startMelodyInternal(melodyArray, options);
     }
 
     /**
@@ -354,62 +383,48 @@ namespace music {
      */
     //% help=music/begin-melody weight=60 blockGap=16
     //% blockId=device_start_melody block="start melody %melody=device_builtin_melody| repeating %options"
+    //% melodyArray.label="melody"
     //% parts="headphone"
     //% group="Melody Advanced"
+    //% deprecated=1
     export function startMelody(melodyArray: string[], options: MelodyOptions = 1) {
-        init();
-        if (currentMelody != undefined) {
-            if (((options & MelodyOptions.OnceInBackground) == 0)
-                && ((options & MelodyOptions.ForeverInBackground) == 0)
-                && currentMelody.background) {
-                currentBackgroundMelody = currentMelody;
-                currentMelody = null;
-                control.raiseEvent(MICROBIT_MELODY_ID, MusicEvent.BackgroundMelodyPaused);
-            }
-            if (currentMelody)
-                control.raiseEvent(MICROBIT_MELODY_ID, currentMelody.background ? MusicEvent.BackgroundMelodyEnded : MusicEvent.MelodyEnded);
-            currentMelody = new Melody(melodyArray, options);
-            control.raiseEvent(MICROBIT_MELODY_ID, currentMelody.background ? MusicEvent.BackgroundMelodyStarted : MusicEvent.MelodyStarted);
-        } else {
-            currentMelody = new Melody(melodyArray, options);
-            control.raiseEvent(MICROBIT_MELODY_ID, currentMelody.background ? MusicEvent.BackgroundMelodyStarted : MusicEvent.MelodyStarted);
-            // Only start the fiber once
-            control.inBackground(() => {
-                while (currentMelody.hasNextNote()) {
-                    playNextNote(currentMelody);
-                    if (!currentMelody.hasNextNote() && currentBackgroundMelody) {
-                        // Swap the background melody back
-                        currentMelody = currentBackgroundMelody;
-                        currentBackgroundMelody = null;
-                        control.raiseEvent(MICROBIT_MELODY_ID, MusicEvent.MelodyEnded);
-                        control.raiseEvent(MICROBIT_MELODY_ID, MusicEvent.BackgroundMelodyResumed);
-                        control.raiseEvent(MICROBIT_MELODY_ID, INTERNAL_MELODY_ENDED);
-                    }
-                }
-                control.raiseEvent(MICROBIT_MELODY_ID, currentMelody.background ? MusicEvent.BackgroundMelodyEnded : MusicEvent.MelodyEnded);
-                if (!currentMelody.background)
-                    control.raiseEvent(MICROBIT_MELODY_ID, INTERNAL_MELODY_ENDED);
-                currentMelody = null;
-            })
-        }
+        return startMelodyInternal(melodyArray, options);
     }
-
 
     /**
      * Play a melody from the melody editor.
-     * @param melody - string of up to eight notes [C D E F G A B C5] or rests [-] separated by spaces, which will be played one at a time, ex: "E D G F B A C5 B "
-     * @param tempo - number in beats per minute (bpm), dictating how long each note will play for
+     * @param melody string of up to eight notes [C D E F G A B C5] or rests [-] separated by spaces, which will be played one at a time, ex: "E D G F B A C5 B "
+     * @param tempo number in beats per minute (bpm), dictating how long each note will play for
      */
     //% block="play melody $melody at tempo $tempo|(bpm)" blockId=playMelody
+    //% melody.label="melody" tempo.label="tempo"
     //% weight=85 blockGap=8 help=music/play-melody
     //% melody.shadow="melody_editor"
     //% tempo.min=40 tempo.max=500
     //% tempo.defl=120
     //% parts=headphone
     //% group="Melody"
+    //% deprecated=1
     export function playMelody(melody: string, tempo: number) {
         melody = melody || "";
         setTempo(tempo);
+
+        const playable = new StringArrayPlayable(melody, tempo);
+        playable._play(PlaybackMode.UntilDone);
+    }
+
+    // deprecated, use _startMelodyInternal instead
+    export function startMelodyInternal(melodyArray: string[], options: MelodyOptions) {
+        const reader = new MelodyArrayReader(melodyArray);
+        _startMelodyInternal(reader, options);
+    }
+
+    export function waitForMelodyEnd() {
+        control.waitForEvent(MICROBIT_MELODY_ID, INTERNAL_MELODY_ENDED);
+    }
+
+    // deprecated, use StringArrayPlayable instead
+    export function getMelodyNotes(melody: string) {
         let notes: string[] = melody.split(" ").filter(n => !!n);
         let newOctave = false;
 
@@ -426,8 +441,13 @@ namespace music {
             }
         }
 
-        music.startMelody(notes, MelodyOptions.Once)
-        control.waitForEvent(MICROBIT_MELODY_ID, INTERNAL_MELODY_ENDED);
+        // Switch back to octave 4 on first note if repeating and final note is octave 5.
+        // Otherwise the higher octave will persist.
+        if (notes[notes.length - 1] === "C5" && notes[0] != "C5") {
+            notes[0] += "4";
+        }
+
+        return notes;
     }
 
     /**
@@ -463,6 +483,13 @@ namespace music {
             startMelody([], MelodyOptions.Once);
     }
 
+    export function _onStopSound(handler: () => void) {
+        if (!stopSoundHandlers) {
+            stopSoundHandlers = [];
+        }
+        stopSoundHandlers.push(handler);
+    }
+
     /**
      * Stop all sounds and melodies currently playing.
      */
@@ -474,6 +501,12 @@ namespace music {
         rest(0);
         stopMelody(MelodyStopOptions.All);
         music.__stopSoundExpressions();
+        _stopPlayables();
+        if (stopSoundHandlers) {
+            for (const handler of stopSoundHandlers) {
+                handler()
+            }
+        }
     }
 
 
@@ -487,83 +520,333 @@ namespace music {
         _playTone = f;
     }
 
-    function playNextNote(melody: Melody): void {
-        // cache elements
-        let currNote = melody.nextNote();
-        let currentPos = melody.currentPos;
-        let currentDuration = melody.currentDuration;
-        let currentOctave = melody.currentOctave;
+    /**
+     * Converts an octave and note offset into an integer frequency.
+     * Returns 0 if the note is out of range.
+     *
+     * @param octave    The octave of the note (1 - 8)
+     * @param note      The offset of the note within the octave
+     * @returns         A frequency in HZ or 0 if out of range
+     */
+    export function getFrequencyForNote(octave: number, note: number) {
+        const index = (note + (12 * (octave - 1))) << 1;
 
-        let note: number;
-        let isrest: boolean = false;
-        let beatPos: number;
-        let parsingOctave: boolean = true;
-        let prevNote: boolean = false;
-
-        for (let pos = 0; pos < currNote.length; pos++) {
-            let noteChar = currNote.charAt(pos);
-            switch (noteChar) {
-                case 'c': case 'C': note = 1; prevNote = true; break;
-                case 'd': case 'D': note = 3; prevNote = true; break;
-                case 'e': case 'E': note = 5; prevNote = true; break;
-                case 'f': case 'F': note = 6; prevNote = true; break;
-                case 'g': case 'G': note = 8; prevNote = true; break;
-                case 'a': case 'A': note = 10; prevNote = true; break;
-                case 'B': note = 12; prevNote = true; break;
-                case 'r': case 'R': isrest = true; prevNote = false; break;
-                case '#': note++; prevNote = false; break;
-                case 'b': if (prevNote) note--; else { note = 12; prevNote = true; } break;
-                case ':': parsingOctave = false; beatPos = pos; prevNote = false; break;
-                default: prevNote = false; if (parsingOctave) currentOctave = parseInt(noteChar);
-            }
+        if (index >= freqs.length) {
+            return Math.round(440 * Math.pow(2, (((octave + 1) * 12 + note) - 70) / 12));
         }
-        if (!parsingOctave) {
-            currentDuration = parseInt(currNote.substr(beatPos + 1, currNote.length - beatPos));
+        else {
+            return freqs.getNumber(NumberFormat.UInt16LE, index) || 0;
         }
-        let beat = Math.idiv(60000, beatsPerMinute) >> 2;
-        if (isrest) {
-            music.rest(currentDuration * beat)
-        } else {
-            let keyNumber = note + (12 * (currentOctave - 1));
-            let frequency = freqs.getNumber(NumberFormat.UInt16LE, keyNumber * 2) || 0;
-            music.playTone(frequency, currentDuration * beat);
-        }
-        melody.currentDuration = currentDuration;
-        melody.currentOctave = currentOctave;
-        const repeating = melody.repeating && currentPos == melody.melodyArray.length - 1;
-        melody.currentPos = repeating ? 0 : currentPos + 1;
-
-        control.raiseEvent(MICROBIT_MELODY_ID, melody.background ? MusicEvent.BackgroundMelodyNotePlayed : MusicEvent.MelodyNotePlayed);
-        if (repeating)
-            control.raiseEvent(MICROBIT_MELODY_ID, melody.background ? MusicEvent.BackgroundMelodyRepeated : MusicEvent.MelodyRepeated);
     }
 
-    class Melody {
-        public melodyArray: string[];
-        public currentDuration: number;
-        public currentOctave: number;
-        public currentPos: number;
-        public repeating: boolean;
-        public background: boolean;
-
-        constructor(melodyArray: string[], options: MelodyOptions) {
-            this.melodyArray = melodyArray;
-            this.repeating = ((options & MelodyOptions.Forever) != 0);
-            this.repeating = this.repeating ? true : ((options & MelodyOptions.ForeverInBackground) != 0)
-            this.background = ((options & MelodyOptions.OnceInBackground) != 0);
-            this.background = this.background ? true : ((options & MelodyOptions.ForeverInBackground) != 0);
-            this.currentDuration = 4; //Default duration (Crotchet)
-            this.currentOctave = 4; //Middle octave
-            this.currentPos = 0;
+    function playNextNote(melody: MelodyReader): void {
+        melody.readNote();
+        let beat = Math.idiv(60000, beatsPerMinute) >> 2;
+        if (melody.currentNote === REST) {
+            music.rest(melody.currentDuration * beat)
+        } else {
+            music.playTone(getFrequencyForNote(melody.currentOctave, melody.currentNote), melody.currentDuration * beat);
         }
 
-        hasNextNote() {
-            return this.repeating || this.currentPos < this.melodyArray.length;
+        control.raiseEvent(MICROBIT_MELODY_ID, melody.background | MusicEvent.MelodyNotePlayed);
+
+        if (melody.repeating && !melody.hasNextNote()) {
+            melody.reset();
+            control.raiseEvent(MICROBIT_MELODY_ID, melody.background | MusicEvent.MelodyRepeated);
+        }
+    }
+
+    export class MelodyReader {
+        currentOctave: number;
+        currentNote: number;
+        currentDuration: number;
+        options: MelodyOptions;
+
+        constructor() {
+            this.reset();
         }
 
-        nextNote(): string {
-            const currentNote = this.melodyArray[this.currentPos];
-            return currentNote;
+        get background() {
+            return (this.options & (MelodyOptions.OnceInBackground | MelodyOptions.ForeverInBackground)) ? 0xf0 : 0;
         }
+
+        get repeating() {
+            return !!(this.options & (MelodyOptions.Forever | MelodyOptions.ForeverInBackground));
+        }
+
+        setOptions(options: MelodyOptions) {
+            this.options = options;
+        }
+
+        reset() {
+            this.currentOctave = 4;
+            this.currentNote = 0;
+            this.currentDuration = 4;
+        }
+
+        readNote() { }
+
+        hasNextNote(): boolean {
+            return false;
+        }
+    }
+
+    /**
+     * This is an array that maps letter index to note index in an octave
+     * The note index is the number of semitones above C, so C=0, D=2, ..., B=11
+     *
+     * There are no sharps in this array, only natural notes
+     */
+    //% whenUsed
+    const offsetLookup = hex`090b0002040507`;
+
+    //% whenUsed
+    const REST = -0xffff;
+
+    export class MelodyStringReader extends MelodyReader {
+        melodyStringIndex: number;
+        constructor(public melody: string, public resetOctave: boolean) {
+            super();
+        }
+
+        reset() {
+            super.reset();
+            this.melodyStringIndex = 0;
+        }
+
+        readNote() {
+            this.eatWhitespace();
+            if (this.resetOctave) {
+                this.currentOctave = 4;
+            }
+
+            let note: number = undefined;
+            let modifier = 0;
+
+            while (this.melodyStringIndex < this.melody.length) {
+                const c = this.melody.charCodeAt(this.melodyStringIndex++);
+                if (c == 32 /* space */) {
+                    break;
+                }
+
+                else if (c === 35 /* # */) {
+                    modifier++;
+                }
+                else if (c === 45 /* - */ || c === 114 /* r */ || c === 82 /* R */) {
+                    if (note !== undefined) {
+                        this.melodyStringIndex--;
+                        break;
+                    }
+                    note = -1;
+                }
+                else if (c === 98 /* b */) {
+                    if (note === undefined) {
+                        note = 11;
+                    }
+                    else {
+                        modifier--;
+                    }
+                }
+                else if (c >= 48 && c <= 57) {
+                    // number
+                    if (note === undefined) {
+                        // invalid if we haven't seen a note yet, ignore the number
+                        continue;
+                    }
+                    else {
+                        this.melodyStringIndex--;
+                        this.currentOctave = this.readNumber();
+                    }
+                }
+                else if (c >= 65 && c <= 71) {
+                    // A-G
+                    if (note !== undefined) {
+                        this.melodyStringIndex--;
+                        break;
+                    }
+                    note = offsetLookup[c - 65];
+                }
+                else if (c >= 97 && c <= 103) {
+                    // a-g
+                    if (note !== undefined) {
+                        this.melodyStringIndex--;
+                        break;
+                    }
+                    note = offsetLookup[c - 97];
+                }
+                else if (c === 58 /* : */) {
+                    this.currentDuration = Math.max(1, this.readNumber());
+                    break;
+                }
+            }
+
+            if (note === undefined || note < 0) {
+                // invalid note, treat as rest
+                this.currentNote = REST;
+            }
+            else {
+                // for whatever reason, we index our notes starting at 1 instead of 0, so add 1 to the note value
+                this.currentNote = note + modifier + 1;
+            }
+
+            this.eatWhitespace();
+        }
+
+        readNumber() {
+            let result = 0;
+            while (this.melodyStringIndex < this.melody.length) {
+                const c = this.melody.charCodeAt(this.melodyStringIndex);
+                if (c < 48 || c > 57) break;
+                result = result * 10 + (c - 48);
+                this.melodyStringIndex++;
+            }
+            return result;
+        }
+
+        eatWhitespace() {
+            while (this.melodyStringIndex < this.melody.length && this.melody.charAt(this.melodyStringIndex) == " ") {
+                this.melodyStringIndex++;
+            }
+        }
+
+        hasNextNote(): boolean {
+            this.eatWhitespace();
+            return this.melodyStringIndex < this.melody.length;
+        }
+    }
+
+    export class MelodyArrayReader extends MelodyStringReader {
+        protected melodyArrayIndex: number;
+        constructor(private melodyArray: string[]) {
+            super(melodyArray[0], false);
+            this.melodyArrayIndex = 0;
+        }
+
+        reset() {
+            super.reset();
+            this.melodyArrayIndex = 0;
+        }
+
+        readNote() {
+            this.melodyStringIndex = 0;
+            this.melody = this.melodyArray[this.melodyArrayIndex];
+            super.readNote();
+
+            // we treat each array entry as a single note, ignore anything after the first note
+            this.melodyArrayIndex++;
+        }
+
+        hasNextNote(): boolean {
+            return this.melodyArrayIndex < this.melodyArray.length;
+        }
+    }
+
+    export class MelodyBufferReader extends MelodyReader {
+        position: number;
+        constructor(private melody: Buffer) {
+            super();
+            this.position = 0;
+        }
+
+        readNote() {
+            const noteNumber = this.melody[this.position];
+            this.currentDuration = this.melody[this.position + 1];
+
+            if (noteNumber === 0) {
+                this.currentNote = REST;
+            }
+            else {
+                this.currentNote = (noteNumber % 12) + 1;
+                this.currentOctave = Math.idiv((noteNumber - 24), 12);
+            }
+            this.position += 2;
+        }
+
+        hasNextNote(): boolean {
+            return this.position < this.melody.length;
+        }
+    }
+
+    export function _startMelodyInternal(reader: MelodyReader, options: MelodyOptions) {
+        init();
+        const isBackground = options & (MelodyOptions.OnceInBackground | MelodyOptions.ForeverInBackground);
+        reader.setOptions(options);
+        if (currentMelody != undefined) {
+            if (!isBackground && currentMelody.background) {
+                currentBackgroundMelody = currentMelody;
+                currentMelody = null;
+                control.raiseEvent(MICROBIT_MELODY_ID, MusicEvent.BackgroundMelodyPaused);
+            }
+            if (currentMelody)
+                control.raiseEvent(MICROBIT_MELODY_ID, currentMelody.background | MusicEvent.MelodyEnded);
+            currentMelody = reader;
+            control.raiseEvent(MICROBIT_MELODY_ID, currentMelody.background | MusicEvent.MelodyStarted);
+        } else {
+            currentMelody = reader;
+            control.raiseEvent(MICROBIT_MELODY_ID, currentMelody.background | MusicEvent.MelodyStarted);
+            // Only start the fiber once
+            control.inBackground(() => {
+                while (currentMelody.hasNextNote()) {
+                    playNextNote(currentMelody);
+                    if (!currentMelody.hasNextNote() && currentBackgroundMelody) {
+                        // Swap the background melody back
+                        currentMelody = currentBackgroundMelody;
+                        currentBackgroundMelody = null;
+                        control.raiseEvent(MICROBIT_MELODY_ID, MusicEvent.MelodyEnded);
+                        control.raiseEvent(MICROBIT_MELODY_ID, MusicEvent.BackgroundMelodyResumed);
+                        control.raiseEvent(MICROBIT_MELODY_ID, INTERNAL_MELODY_ENDED);
+                    }
+                }
+                control.raiseEvent(MICROBIT_MELODY_ID, currentMelody.background | MusicEvent.MelodyEnded);
+                if (!currentMelody.background)
+                    control.raiseEvent(MICROBIT_MELODY_ID, INTERNAL_MELODY_ENDED);
+                currentMelody = null;
+            });
+        }
+    }
+
+    // deprecated use StringArrayPlayable instead
+    export function _bufferToMelody(melody: Buffer) {
+        if (!melody) return [];
+
+        let currentDuration = 4;
+        let currentOctave = -1;
+        const out: string[] = [];
+
+        const notes = "c#d#ef#g#a#b"
+        let current = "";
+
+        // The buffer format is 2 bytes per note. First note byte is midi
+        // note number, second byte is duration in quarter beats. The note
+        // number 0 is reserved for rests
+        for (let i = 0; i < melody.length; i += 2) {
+            let octave = 4;
+            const note = melody[i] % 12;
+            if (melody[i] === 0) {
+                current = "r"
+            }
+            else {
+                current = notes.charAt(note);
+                if (current === "#") current = notes.charAt(note - 1) + current
+
+                octave = Math.idiv((melody[i] - 24), 12)
+            }
+
+            const duration = melody[i + 1];
+
+            if (octave !== currentOctave) {
+                current += octave
+                currentOctave = octave;
+            }
+
+            if (duration !== currentDuration) {
+                current += ":" + duration;
+                currentDuration = duration;
+            }
+
+            out.push(current);
+        }
+
+        return out;
     }
 }

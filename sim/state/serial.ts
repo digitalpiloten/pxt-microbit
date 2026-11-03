@@ -8,7 +8,7 @@ namespace pxsim {
         }
 
         private handleMessage(msg: SimulatorMessage) {
-            if (msg.type === "seria") {
+            if (msg.type === "serial") {
                 const data = (<SimulatorSerialMessage>msg).data || "";
                 this.receiveData(data);
             }
@@ -35,6 +35,16 @@ namespace pxsim {
                 })
                 this.serialOutBuffer = '';
             }
+        }
+
+        writeCsv(s: string, type: "headers" | "row" | "clear") {
+            Runtime.postMessage(<SimulatorSerialMessage>{
+                type: 'serial',
+                data: s,
+                id: runtime.id,
+                csvType: type,
+                sim: true
+            })
         }
     }
 }
@@ -85,6 +95,10 @@ namespace pxsim.serial {
     }
 
     export function setBaudRate(rate: number) {
+        // TODO
+    }
+
+    export function writeDmesg() {
         // TODO
     }
 }

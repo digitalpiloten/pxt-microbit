@@ -24,6 +24,12 @@ Fun games to build with your @boardname@.
     "cardType": "tutorial"
   }]
 }, {
+  "name": "Rock Paper Scissors V2",
+  "url":"/projects/rock-paper-scissors-v2",
+  "description": "Rock Paper Scissors with Sounds for micro:bit V2!",
+  "imageUrl":"/static/mb/projects/a4-motion-v2.png",
+  "cardType": "tutorial"
+},{
   "name": "Coin Flipper",
   "url":"/projects/coin-flipper",
   "description": "Guess the coin toss and see if you're lucky.",
@@ -77,6 +83,7 @@ Fun games to build with your @boardname@.
   "description": "Try to guess words with your friends!",
   "imageUrl": "/static/mb/projects/heads-guess.png",
   "cardType": "tutorial",
+  "youTubeId": "WgMj1AT2G38",
   "otherActions": [{
     "url": "/projects/spy/heads-guess",
     "editor": "py",
@@ -97,6 +104,7 @@ Fun games to build with your @boardname@.
   "description": "Button smashing rope pulling games using LEDs",
   "imageUrl":"/static/mb/projects/tug-of-led.png",
   "cardType": "tutorial",
+  "youTubeId": "oZrvVB4cGWU",
   "otherActions": [{
     "url": "/projects/spy/tug-of-led",
     "editor": "py",
@@ -117,6 +125,7 @@ Fun games to build with your @boardname@.
   "description": "Use the game blocks to create a skill game",
   "imageUrl": "/static/mb/projects/snap-the-dot.png",
   "cardType": "tutorial",
+  "youTubeId": "ew15T97VrF4",
   "otherActions": [{
     "url": "/projects/spy/snap-the-dot",
     "editor": "py",
@@ -143,7 +152,3 @@ Fun games to build with your @boardname@.
   "imageUrl":"/static/mb/projects/crashy-bird.png"
 }]
 ```
-
-## Flipgrid
-
-https://flipgrid.com/makecodemicrobit

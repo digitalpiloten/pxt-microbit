@@ -19,6 +19,7 @@ Two @boardname@s work like remote levels. They lie flat and detect any change in
 ```typescript
 let ax = 0;
 let ay = 0;
+radio.setGroup(3)
 basic.forever(() => {
     ax = input.acceleration(Dimension.X);
     ay = input.acceleration(Dimension.Y);
@@ -45,11 +46,11 @@ radio.onReceivedBuffer(function (receivedBuffer) {
 ```
 
 
-## ~hint
+### ~hint
 
 A radio that can both transmit and receive is called a _transceiver_.
 
-## ~
+### ~
 
 ## See also
 

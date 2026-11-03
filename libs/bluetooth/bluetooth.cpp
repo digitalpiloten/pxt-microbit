@@ -145,6 +145,7 @@ namespace bluetooth {
     */
     //% help=bluetooth/on-uart-data-received
     //% weight=18 blockId=bluetooth_on_data_received block="bluetooth|on data received %delimiters=serial_delimiter_conv"
+    //% delimiters.label="delimiter"
     void onUartDataReceived(String delimiters, Action body) {
       startUartService();
       uart->eventOn(MSTR(delimiters));
@@ -181,8 +182,10 @@ namespace bluetooth {
     * @param connectable true to keep bluetooth connectable for other services, false otherwise.
     */
     //% blockId=eddystone_advertise_url block="bluetooth advertise url %url|with power %power|connectable %connectable"
+    //% url.label="url" power.label="power" connectable.label="connectable"
     //% parts=bluetooth weight=11 blockGap=8
     //% help=bluetooth/advertise-url blockExternalInputs=1
+    //% hidden=1 deprecated=1
     void advertiseUrl(String url, int power, bool connectable) {
 #if CONFIG_ENABLED(MICROBIT_BLE_EDDYSTONE_URL)
         power = min(MICROBIT_BLE_POWER_LEVELS-1, max(0, power));
@@ -198,7 +201,7 @@ namespace bluetooth {
 	* @param power power level between 0 and 7, eg: 7
     * @param connectable true to keep bluetooth connectable for other services, false otherwise.
     */
-    //% parts=bluetooth weight=12 advanced=true
+    //% parts=bluetooth weight=12 advanced=true deprecated=1
     void advertiseUidBuffer(Buffer nsAndInstance, int power, bool connectable) {
 #if CONFIG_ENABLED(MICROBIT_BLE_EDDYSTONE_UID)        
         auto buf = nsAndInstance;
@@ -216,6 +219,7 @@ namespace bluetooth {
     */
     //% parts=bluetooth weight=5 help=bluetooth/set-transmit-power advanced=true
     //% blockId=bluetooth_settransmitpower block="bluetooth set transmit power %power"
+    //% power.label="value"
     void setTransmitPower(int power) {
         uBit.bleManager.setTransmitPower(min(MICROBIT_BLE_POWER_LEVELS-1, max(0, power)));
     }
@@ -226,6 +230,7 @@ namespace bluetooth {
     //% blockId=eddystone_stop_advertising block="bluetooth stop advertising"
     //% parts=bluetooth weight=10
     //% help=bluetooth/stop-advertising advanced=true
+    //% hidden=1 deprecated=1
     void stopAdvertising() {
         uBit.bleManager.stopAdvertising();
     } 

@@ -8,7 +8,9 @@ pins.i2cWriteNumber(0, 0, NumberFormat.Int8LE, true);
 
 ### ~ hint
 
-**Simulator**: This function needs real hardware to work with. It's not supported in the simulator.
+#### Simulator
+
+This function needs real hardware to work with. It's not supported in the simulator.
 
 ### ~
 
@@ -23,7 +25,7 @@ pins.i2cWriteNumber(0, 0, NumberFormat.Int8LE, true);
 
 #### Repeated start
 
-A [repeated start condition](http://www.i2c-bus.org/repeated-start-condition/) is set to help make sure that when you want to write multiple numbers from the device at one time, it can happen without interruption. A start conditon is sent (if **repeated** is `true`) each time a number is written without a matching stop condition. When the last number is written, the stop conditon can be sent by setting **repeated** to `false`. For single writes, don't use **repeated** or set it to `false`.
+A [repeated start condition](http://www.i2c-bus.org/repeated-start-condition/) is set to help make sure that when you want to write multiple numbers from the device at one time, it can happen without interruption. A start condition is sent (if **repeated** is `true`) each time a number is written without a matching stop condition. When the last number is written, the stop condition can be sent by setting **repeated** to `false`. For single writes, don't use **repeated** or set it to `false`.
 
 #### Reserved addresses
 

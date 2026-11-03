@@ -27,7 +27,7 @@ You can tabulate your readings like this:
 
 **4.** Plan and design data collection documents.<br/>
 **5.** Program the micro:bit.<br/>
-**6.** When the battery is connected to the micro:bit. buttton **A** will give a reading. Button **B** will give a reading in millivolts converted from the digital reading on pin **0**.<br/>
+**6.** When the battery is connected to the micro:bit, button **A** will give a reading. Button **B** will give a reading in millivolts converted from the digital reading on pin **0**.<br/>
 **7.** Experiment with different batteries. Use good batteries and some older batteries.<br/>
 **8.** Report on the findings and observations in the experiments.
 
@@ -112,8 +112,9 @@ Set up an experiment using a loop of copper wires and see if the micro:bit can d
 
 Log each battery tested to make decision on which of the batteries are good and which ones need to be disposed of.
 
-<br/>
+## ~button /courses/ucp-science/electricity/resources
+NEXT: Resources
+## ~
 
-| | | |
-|-|-|-|
-| Adapted from "[Electricity - Battery Tester](https://drive.google.com/open?id=15Xry9jFsIzHHG7RpaIomLodl9pBjTiKDvtjkd227b7Y)" by [C Lyman](http://utahcoding.org) | | [![CC BY-NC-SA](https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/) |
+<br/>
+Adapted from "[Electricity - Battery Tester](https://drive.google.com/open?id=15Xry9jFsIzHHG7RpaIomLodl9pBjTiKDvtjkd227b7Y)" by [C Lyman](http://utahcoding.org) [![CC BY-NC-SA](https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
